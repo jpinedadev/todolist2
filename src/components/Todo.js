@@ -1,13 +1,18 @@
 import React, {useState} from "react"
 
-function Todo({ todo }){
+function Todo({ todo, todoDelete, todoToggleCompleted }){
     
     return(
             <div className="card mt-2">
                 <div className="card-body">
-                    <h3 className="card-title text-right">
+                    <h3 className="card-title ml-4">
                         {todo.title}
-                        <button className="btn btn-sm btn-outline-success ml-2">Terminar</button>
+                    
+                        <button 
+                            onClick={()=> todoToggleCompleted(todo.id)}
+                            className={`btn btn-sm ${todo.completed ? 'btn-outline-success' : 'btn-success'}`}>
+                            {todo.completed ? 'Terminado' : 'Terminar'}
+                        </button>
                     </h3>
                     <p className="card-text text-right">
                         {todo.description}
@@ -15,7 +20,13 @@ function Todo({ todo }){
                     <hr />
                     <div className="d-flex justify-content-end">
                     <button className="btn btn-sm btn-outline-primary">Editar</button>
-                    <button className="btn btn-sm btn-outline-danger">Eliminar</button>
+                    <button 
+                    onClick={() => todoDelete(todo.id)}
+                        className="btn btn-sm btn-outline-danger"
+                    >
+                        Eliminar
+                    </button>
+
                     </div>
                 </div>
             </div>
