@@ -21,6 +21,7 @@ const initialTodos = [
 
 function App() {
     const [todos, setTodos] = useState(initialTodos);
+    const [todoEdit, setTodoEdit] = useState(null);
     const todoDelete = (todoId) => {
     const changedTodos = todos.filter(todo => todo.id !== todoId)
         setTodos(changedTodos)
@@ -58,8 +59,8 @@ function App() {
             completed: false
         }
         const changedTodos= [
+            newTodo,
             ...todos,
-            newTodo
         ]
         setTodos(changedTodos)
     }
@@ -72,10 +73,14 @@ function App() {
                     todos={todos} 
                     todoDelete={todoDelete}
                     todoToggleCompleted={todoToggleCompleted}    
+                    setTodoEdit={setTodoEdit}
                 />
               </div>
               <div className='col-4'>
-                  <TodoForm todoAdd={todoAdd}/>
+                  <TodoForm 
+                    todoAdd={todoAdd}
+                    todoEdit={todoEdit}
+                    />
               </div>
         </div>
     </div>

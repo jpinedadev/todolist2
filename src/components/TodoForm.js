@@ -5,9 +5,13 @@ const initialFormValues = {
     description:''
 }
 
-function TodoForm(todoAdd){
+function TodoForm({ todoAdd }){
     const [formValues, setFormValues] =  useState(initialFormValues);
     const {title,description} = formValues;
+    const [error, setError] = useState(null);
+    const [successMessage, setSuccessMessage] = useState(null)
+    
+
     const handleInputChange = (e) =>{
         const changeFormValues={
             ...formValues,
@@ -19,8 +23,23 @@ function TodoForm(todoAdd){
     const handleSubmit =(e)=>{
         e.preventDefault();
         console.log('submit');
+        if(title.trim() === ''){
+            setError('Debes indicar un titulo');
+            return;
+        }
+
+        if(description.trim() === ''){
+            setError('Debes indicar una descripcion')
+            return;
+        }
         //Agregar Tarea
         todoAdd(formValues);
+        setFormValues(initialFormValues)
+        setSuccessMessage('Agregado con exito!')
+        setTimeout(()=>{
+            setSuccessMessage(null)
+        },2000)
+        setError(null)
     }
 
     return(
@@ -51,8 +70,24 @@ function TodoForm(todoAdd){
                     Agregar tarea
                 </button>
                 
-
             </form>
+            {
+                error 
+                    ? (
+                        <div className="alert alert-danger mt-2">
+                            {error}
+                        </div>
+                    ): null
+            }
+
+            {
+                successMessage && (
+                    <div className="alert alert-success mt-2">
+                        { successMessage }
+                    </div>
+                )
+            }
+
         </div>
         )
 }

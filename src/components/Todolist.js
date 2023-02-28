@@ -5,7 +5,7 @@ import Todo from "./Todo"
 
 
 
-function Todolist({todos, todoDelete, todoToggleCompleted}){
+function Todolist({todos, todoDelete, todoToggleCompleted, setTodoEdit}){
 
 
     return(
@@ -18,7 +18,7 @@ function Todolist({todos, todoDelete, todoToggleCompleted}){
                         key={todo.id}
                         todoDelete={todoDelete}
                         todoToggleCompleted={todoToggleCompleted}
-
+                        setTodoEdit = {setTodoEdit}
                     />
                 ))
             }
