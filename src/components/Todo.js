@@ -6,7 +6,7 @@ function Todo({ todo, todoDelete, todoToggleCompleted, setTodoEdit }){
             <div className="card mt-2">
                 <div className="card-body">
                     <h3 className="card-title ml-4">
-                        {todo.title}
+                         {todo.title}
                     
                         <button 
                             onClick={()=> todoToggleCompleted(todo.id)}

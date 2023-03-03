@@ -1,8 +1,7 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import './App.css';
 import TodoForm from './components/TodoForm';
 import Todolist from './components/Todolist';
-
 
 const initialTodos = [
     {
@@ -19,11 +18,20 @@ const initialTodos = [
     }
 ]
 
+const localTodos = JSON.parse(localStorage.getItem('todos'));
+
 function App() {
-    const [todos, setTodos] = useState(initialTodos);
+    const [todos, setTodos] = useState(localTodos || initialTodos);
     const [todoEdit, setTodoEdit] = useState(null);
+    useEffect(()=>{
+        localStorage.setItem('todos',JSON.stringify(todos));
+    },[todos]);
+
     const todoDelete = (todoId) => {
-    const changedTodos = todos.filter(todo => todo.id !== todoId)
+        if (todoEdit && todoId === todoEdit.id) {
+            setTodoEdit(null)
+        }
+        const changedTodos = todos.filter(todo => todo.id !== todoId)
         setTodos(changedTodos)
     }
 
@@ -65,6 +73,15 @@ function App() {
         setTodos(changedTodos)
     }
 
+    const todoUpdate = (todoEdit) => {
+        const changedTodos = todos.map(todo =>(
+            todo.id === todoEdit.id 
+            ? todoEdit 
+            : todo
+        ))
+        setTodos(changedTodos)
+    }
+
   return (
       <div className="container mt-4">
           <div className="row">
@@ -80,9 +97,12 @@ function App() {
                   <TodoForm 
                     todoAdd={todoAdd}
                     todoEdit={todoEdit}
+                    todoUpdate={todoUpdate}
+                    setTodoEdit={setTodoEdit}
                     />
               </div>
         </div>
+        
     </div>
   );
 }
